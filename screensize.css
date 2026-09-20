@@ -1,0 +1,29 @@
+@media(max-width:1100px){
+.sidebar{width:90px}
+.main-area{width:calc(100% - 90px)}
+.game-logo{width:82%}
+.play-button{width:245px}
+}
+@media(max-width:650px){
+.sidebar{width:64px;min-width:64px}
+.main-area{width:calc(100% - 64px)}
+.launcher-logo{height:80px}
+.launcher-logo img{width:45px}
+.nav-button{min-height:65px;font-size:19px}
+.nav-button small{font-size:8px}
+.top-header{padding:0 12px}
+.top-header h2{font-size:18px}
+.guest-profile strong{font-size:11px}
+.bottom-launcher{flex-direction:column;gap:8px;padding:10px}
+.version-selector{width:100%}
+.version-selector select{width:100%;min-width:0;padding:8px}
+.play-button{width:230px;height:58px}
+.edition-text{font-size:12px;letter-spacing:3px}
+.information-page{padding:25px 15px}
+}
+@media(max-height:550px){
+.top-header{height:75px}
+.page{height:calc(100vh - 75px)}
+.launcher-logo{height:70px}
+.nav-button{min-height:52px}
+}

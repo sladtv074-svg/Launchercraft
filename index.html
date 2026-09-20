@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Launchcraft</title>
+  <link rel="icon" href="./grass-block.png">
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./screensize.css">
+</head>
+<body>
+  <div id="intro-screen">
+    <div class="intro-content">
+      <img src="./grass-block.png" alt="Launchcraft" class="intro-block">
+      <h1>LAUNCHCRAFT</h1>
+      <p>CHARGEMENT DU LAUNCHER...</p>
+      <div class="loading-track"><div class="loading-progress"></div></div>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <button class="launcher-logo" onclick="openPage('play')" aria-label="Accueil">
+      <img src="./grass-block.png" alt="Logo Launchcraft">
+    </button>
+
+    <nav class="navigation">
+      <button class="nav-button active" data-page="play" onclick="openPage('play')">
+        <span>▶</span><small>Jouer</small>
+      </button>
+      <button class="nav-button" data-page="mods" onclick="openPage('mods')">
+        <span>✚</span><small>Mods</small>
+      </button>
+      <button class="nav-button" data-page="faq" onclick="openPage('faq')">
+        <span>?</span><small>FAQ</small>
+      </button>
+      <button class="nav-button" data-page="installations" onclick="openPage('installations')">
+        <span>⇩</span><small>Installer</small>
+      </button>
+      <button class="nav-button" data-page="skins" onclick="openPage('skins')">
+        <span>◈</span><small>Skins</small>
+      </button>
+      <button class="nav-button" data-page="patchnotes" onclick="openPage('patchnotes')">
+        <span>▤</span><small>Notes</small>
+      </button>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <button class="nav-button" data-page="settings" onclick="openPage('settings')">
+        <span>⚙</span><small>Réglages</small>
+      </button>
+      <button class="nav-button" data-page="credits" onclick="openPage('credits')">
+        <span>ⓘ</span><small>Crédits</small>
+      </button>
+    </div>
+  </aside>
+
+  <main class="main-area">
+    <header class="top-header">
+      <div>
+        <h2 id="header-title">Launchcraft</h2>
+        <p id="header-subtitle">Web Edition</p>
+      </div>
+      <div class="guest-profile">
+        <div class="guest-icon">☻</div>
+        <div>
+          <strong>Joueur invité</strong>
+          <small>Profil local</small>
+        </div>
+      </div>
+    </header>
+
+    <section class="page active" id="page-play">
+      <div class="hero-background">
+        <div class="background-overlay"></div>
+        <img src="./launchcraft-title.png" alt="Launchcraft Web Edition" class="game-logo">
+        <div class="edition-text">WEB EDITION</div>
+      </div>
+
+      <div class="bottom-launcher">
+        <div class="version-selector">
+          <label for="game-version">VERSION</label>
+          <select id="game-version">
+            <option value="1.12.2">Minecraft 1.12.2</option>
+            <option value="1.8.8">Minecraft 1.8.8</option>
+            <option value="1.5.2">Minecraft 1.5.2</option>
+          </select>
+        </div>
+        <button class="play-button" onclick="launchGame()" aria-label="Lancer le jeu"></button>
+      </div>
+    </section>
+
+    <section class="page information-page" id="page-mods">
+      <h1>Mods</h1>
+      <div class="info-card">Aucun mod installé pour le moment.</div>
+    </section>
+
+    <section class="page information-page" id="page-faq">
+      <h1>FAQ</h1>
+      <details open>
+        <summary>Le launcher fonctionne-t-il sur iPad ?</summary>
+        <p>Oui, l'interface est adaptée aux écrans tactiles et aux petits écrans.</p>
+      </details>
+      <details>
+        <summary>Le jeu est-il intégré au launcher ?</summary>
+        <p>Le bouton Play tente d'afficher le jeu dans la même page. Si le site distant bloque les iframes, les fichiers du jeu devront être hébergés directement dans ce projet.</p>
+      </details>
+    </section>
+
+    <section class="page information-page" id="page-installations">
+      <h1>Installations</h1>
+      <div class="info-card">Launchcraft fonctionne directement depuis GitHub Pages.</div>
+    </section>
+
+    <section class="page information-page" id="page-skins">
+      <h1>Skins</h1>
+      <div class="info-card">La gestion des skins sera ajoutée prochainement.</div>
+    </section>
+
+    <section class="page information-page" id="page-patchnotes">
+      <h1>Patch Notes</h1>
+      <div class="info-card"><strong>Version 1.0</strong><br>Création de l'interface Launchcraft, animation d'introduction et navigation.</div>
+    </section>
+
+    <section class="page information-page" id="page-settings">
+      <h1>Réglages</h1>
+      <label class="setting-line">
+        <span>Activer les animations</span>
+        <input type="checkbox" checked onchange="toggleAnimations(this.checked)">
+      </label>
+    </section>
+
+    <section class="page information-page" id="page-credits">
+      <h1>Crédits</h1>
+      <p>Launchcraft est un projet communautaire non affilié à Mojang ou Microsoft.</p>
+    </section>
+  </main>
+
+  <section id="game-overlay" aria-hidden="true">
+    <div class="game-toolbar">
+      <strong>Launchcraft — Jeu</strong>
+      <button onclick="closeGame()">✕ Quitter le jeu</button>
+    </div>
+    <iframe id="game-frame" title="Jeu Minecraft" allow="fullscreen; autoplay"></iframe>
+    <div id="frame-message">
+      <h2>Le jeu ne peut pas être intégré</h2>
+      <p>Le site distant bloque peut-être l'affichage dans une iframe.</p>
+      <a href="https://eaglercraft.ir/">Ouvrir le jeu</a>
+    </div>
+  </section>
+
+  <script src="./index.js"></script>
+</body>
+</html>

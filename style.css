@@ -1,0 +1,64 @@
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden}
+body{display:flex;background:#131313;color:#fff;font-family:Arial,Helvetica,sans-serif}
+button,select{font:inherit}
+button{cursor:pointer}
+
+#intro-screen{position:fixed;inset:0;z-index:100;display:grid;place-items:center;background:#080808;animation:intro-fade .8s 2.6s forwards;pointer-events:none}
+.intro-content{text-align:center;animation:intro-pop .9s ease}
+.intro-block{width:115px;image-rendering:pixelated}
+.intro-content h1{margin:15px 0 5px;letter-spacing:6px;font-size:28px}
+.intro-content p{font-size:11px;letter-spacing:2px;color:#aaa}
+.loading-track{width:250px;height:5px;margin:22px auto;background:#292929}
+.loading-progress{height:100%;width:0;background:#078c43;animation:loading 2.3s forwards}
+
+.sidebar{width:115px;min-width:75px;height:100vh;background:#1e1e1e;border-right:2px solid #101010;display:flex;flex-direction:column;z-index:5}
+.launcher-logo{height:110px;border:0;border-bottom:1px solid #333;background:transparent;display:grid;place-items:center}
+.launcher-logo img{width:65px;image-rendering:pixelated}
+.navigation{flex:1}
+.sidebar-bottom{border-top:1px solid #333}
+.nav-button{width:100%;min-height:77px;background:transparent;color:#aaa;border:0;border-left:4px solid transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;font-size:24px;transition:.15s}
+.nav-button small{font-size:10px;text-transform:uppercase;letter-spacing:.5px}
+.nav-button:hover,.nav-button.active{background:#292929;color:#fff;border-left-color:#008542}
+
+.main-area{width:calc(100% - 115px);height:100vh;position:relative}
+.top-header{height:115px;display:flex;align-items:center;justify-content:space-between;padding:0 35px;background:#131313ee;border-bottom:1px solid #333;position:relative;z-index:3}
+.top-header h2{margin:0;font-size:25px}
+.top-header p{margin:5px 0 0;color:#aaa;font-size:13px}
+.guest-profile{display:flex;align-items:center;gap:10px}
+.guest-icon{padding:12px;background:#3b3b3b}
+.guest-profile small{display:block;color:#999;font-size:11px;margin-top:4px}
+
+.page{display:none;position:relative;width:100%;height:calc(100vh - 115px)}
+.page.active{display:block}
+.hero-background{position:absolute;inset:0;background:url("../background.jpg") center/cover no-repeat;overflow:hidden}
+.background-overlay{position:absolute;inset:0;background:linear-gradient(#0001,#0006)}
+.game-logo{position:absolute;top:22%;left:50%;width:min(850px,90%);transform:translateX(-50%);image-rendering:pixelated;animation:logo-drop .8s ease}
+.edition-text{position:absolute;top:43%;width:100%;text-align:center;font-weight:900;font-size:20px;letter-spacing:7px;text-shadow:3px 3px #111}
+.bottom-launcher{position:absolute;bottom:0;width:100%;min-height:110px;padding:16px 30px;display:flex;align-items:center;justify-content:space-between;background:#131313f5;border-top:2px solid #111}
+.version-selector label{display:block;color:#aaa;font-size:10px;margin-bottom:7px}
+.version-selector select{min-width:220px;padding:12px;background:#292929;border:1px solid #4a4a4a;color:#fff}
+.play-button{width:300px;height:74px;border:0;background:transparent url("../play.png") center/contain no-repeat;image-rendering:pixelated;transition:transform .15s}
+.play-button:hover{background-image:url("../play-hover.png");transform:scale(1.035)}
+
+.information-page{padding:45px;background:#171717;overflow:auto}
+.information-page h1{font-size:30px}
+.info-card,details,.setting-line{background:#242424;border:1px solid #373737;padding:18px;margin:12px 0;color:#ccc}
+summary{cursor:pointer;color:#fff}
+.information-page p{color:#bbb;line-height:1.6}
+.setting-line{display:flex;justify-content:space-between;max-width:450px}
+
+#game-overlay{position:fixed;inset:0;z-index:50;background:#000;display:none;flex-direction:column}
+#game-overlay.visible{display:flex}
+.game-toolbar{height:48px;flex:0 0 48px;background:#171717;border-bottom:1px solid #333;display:flex;align-items:center;justify-content:space-between;padding:0 16px}
+.game-toolbar button{border:0;background:#9b2020;color:#fff;padding:9px 14px}
+#game-frame{flex:1;width:100%;border:0;background:#000}
+#frame-message{display:none;position:absolute;inset:48px 0 0;background:#101010;place-items:center;text-align:center;padding:25px}
+#frame-message.visible{display:grid}
+#frame-message a{color:#65d99a}
+
+@keyframes intro-pop{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:scale(1)}}
+@keyframes loading{to{width:100%}}
+@keyframes intro-fade{to{opacity:0;visibility:hidden}}
+@keyframes logo-drop{from{opacity:0;transform:translate(-50%,-100px)}70%{transform:translate(-50%,12px)}to{opacity:1;transform:translate(-50%,0)}}
+.no-animations *{animation:none!important;transition:none!important}
