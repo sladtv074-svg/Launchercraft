@@ -1,153 +1,310 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Launchcraft</title>
-  <link rel="icon" href="./grass-block.png">
-  <link rel="stylesheet" href="./style.css">
-  <link rel="stylesheet" href="./screensize.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Launchcraft</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #111;
+  color: white;
+  overflow: hidden;
+}
+
+.launcher {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* BARRE LATÉRALE */
+
+.sidebar {
+  width: 115px;
+  height: 100vh;
+  background: #171717;
+  border-right: 2px solid #292929;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 18px 8px;
+  gap: 10px;
+  z-index: 5;
+}
+
+.logo {
+  width: 58px;
+  height: 58px;
+  image-rendering: pixelated;
+  margin-bottom: 15px;
+}
+
+.menu-button {
+  width: 96px;
+  min-height: 72px;
+  border: none;
+  background: transparent;
+  color: #aaa;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.2s;
+  font-size: 12px;
+}
+
+.menu-button:hover,
+.menu-button.active {
+  background: #292929;
+  color: white;
+  border-left: 4px solid #20c46b;
+}
+
+.menu-icon {
+  width: 29px;
+  height: 29px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  filter: grayscale(100%);
+}
+
+.menu-button:hover .menu-icon,
+.menu-button.active .menu-icon {
+  filter: grayscale(0%);
+}
+
+.bottom-menu {
+  margin-top: auto;
+}
+
+/* CONTENU PRINCIPAL */
+
+.main {
+  position: relative;
+  flex: 1;
+  height: 100vh;
+  overflow: hidden;
+  background-image:
+    linear-gradient(rgba(0,0,0,.25), rgba(0,0,0,.45)),
+    url("background.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+/* ASSOMBRISSEMENT DU FOND */
+
+.main::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,.15),
+    rgba(0,0,0,.55)
+  );
+  pointer-events: none;
+}
+
+/* CONTENU CENTRAL */
+
+.center-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.title {
+  width: min(480px, 65vw);
+  max-height: 180px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  margin-bottom: 55px;
+  filter: drop-shadow(0 5px 5px rgba(0,0,0,.6));
+}
+
+/* BOUTON JOUER VERT */
+
+.play-button {
+  min-width: 260px;
+  padding: 20px 55px;
+  background: #20b963;
+  border: 3px solid #108044;
+  border-radius: 4px;
+  color: white;
+  font-size: 26px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px #126b3b;
+  box-shadow:
+    0 5px 0 #0b542d,
+    0 8px 18px rgba(0,0,0,.45);
+  cursor: pointer;
+  transition: .15s;
+}
+
+.play-button:hover {
+  background: #2bd878;
+  transform: translateY(-2px);
+}
+
+.play-button:active {
+  transform: translateY(4px);
+  box-shadow: 0 1px 0 #0b542d;
+}
+
+.version {
+  margin-top: 22px;
+  color: #ddd;
+  font-size: 14px;
+  text-shadow: 2px 2px #000;
+}
+
+/* RESPONSIVE IPAD / MOBILE */
+
+@media (max-width: 700px) {
+  .sidebar {
+    width: 82px;
+    padding: 12px 4px;
+  }
+
+  .logo {
+    width: 48px;
+    height: 48px;
+  }
+
+  .menu-button {
+    width: 72px;
+    min-height: 62px;
+    font-size: 10px;
+  }
+
+  .menu-icon {
+    width: 25px;
+    height: 25px;
+  }
+
+  .title {
+    width: 75vw;
+    margin-bottom: 40px;
+  }
+
+  .play-button {
+    min-width: 210px;
+    padding: 16px 35px;
+    font-size: 21px;
+  }
+}
+</style>
 </head>
+
 <body>
-  <div id="intro-screen">
-    <div class="intro-content">
-      <img src="./grass-block.png" alt="Launchcraft" class="intro-block">
-      <h1>LAUNCHCRAFT</h1>
-      <p>CHARGEMENT DU LAUNCHER...</p>
-      <div class="loading-track"><div class="loading-progress"></div></div>
-    </div>
-  </div>
+
+<div class="launcher">
 
   <aside class="sidebar">
-    <button class="launcher-logo" onclick="openPage('play')" aria-label="Accueil">
-      <img src="./grass-block.png" alt="Logo Launchcraft">
+
+    <img src="grass-block.png" class="logo" alt="Launchcraft">
+
+    <button class="menu-button active" onclick="selectMenu(this)">
+      <span class="menu-icon">▶</span>
+      <span>Jouer</span>
     </button>
 
-    <nav class="navigation">
-      <button class="nav-button active" data-page="play" onclick="openPage('play')">
-        <span>▶</span><small>Jouer</small>
-      </button>
-      <button class="nav-button" data-page="mods" onclick="openPage('mods')">
-        <span>✚</span><small>Mods</small>
-      </button>
-      <button class="nav-button" data-page="faq" onclick="openPage('faq')">
-        <span>?</span><small>FAQ</small>
-      </button>
-      <button class="nav-button" data-page="installations" onclick="openPage('installations')">
-        <span>⇩</span><small>Installer</small>
-      </button>
-      <button class="nav-button" data-page="skins" onclick="openPage('skins')">
-        <span>◈</span><small>Skins</small>
-      </button>
-      <button class="nav-button" data-page="patchnotes" onclick="openPage('patchnotes')">
-        <span>▤</span><small>Notes</small>
-      </button>
-    </nav>
+    <button class="menu-button" onclick="selectMenu(this)">
+      <span class="menu-icon">▦</span>
+      <span>Mods</span>
+    </button>
 
-    <div class="sidebar-bottom">
-      <button class="nav-button" data-page="settings" onclick="openPage('settings')">
-        <span>⚙</span><small>Réglages</small>
+    <button class="menu-button" onclick="selectMenu(this)">
+      <span class="menu-icon">?</span>
+      <span>FAQ</span>
+    </button>
+
+    <button class="menu-button" onclick="selectMenu(this)">
+      <span class="menu-icon">⬇</span>
+      <span>Installer</span>
+    </button>
+
+    <button class="menu-button" onclick="selectMenu(this)">
+      <span class="menu-icon">▣</span>
+      <span>Skins</span>
+    </button>
+
+    <button class="menu-button" onclick="selectMenu(this)">
+      <span class="menu-icon">▤</span>
+      <span>Notes</span>
+    </button>
+
+    <div class="bottom-menu">
+
+      <button class="menu-button" onclick="selectMenu(this)">
+        <span class="menu-icon">⚙</span>
+        <span>Réglages</span>
       </button>
-      <button class="nav-button" data-page="credits" onclick="openPage('credits')">
-        <span>ⓘ</span><small>Crédits</small>
+
+      <button class="menu-button" onclick="selectMenu(this)">
+        <span class="menu-icon">ⓘ</span>
+        <span>Infos</span>
       </button>
+
     </div>
+
   </aside>
 
-  <main class="main-area">
-    <header class="top-header">
-      <div>
-        <h2 id="header-title">Launchcraft</h2>
-        <p id="header-subtitle">Web Edition</p>
-      </div>
-      <div class="guest-profile">
-        <div class="guest-icon">☻</div>
-        <div>
-          <strong>Joueur invité</strong>
-          <small>Profil local</small>
-        </div>
-      </div>
-    </header>
+  <main class="main">
 
-    <section class="page active" id="page-play">
-      <div class="hero-background">
-        <div class="background-overlay"></div>
-        <img src="./launchcraft-title.png" alt="Launchcraft Web Edition" class="game-logo">
-        <div class="edition-text">WEB EDITION</div>
+    <section class="center-content">
+
+      <img
+        src="launchcraft-title.png"
+        class="title"
+        alt="Launchcraft"
+      >
+
+      <button class="play-button" onclick="launchGame()">
+        JOUER
+      </button>
+
+      <div class="version">
+        Minecraft 1.12.2
       </div>
 
-      <div class="bottom-launcher">
-        <div class="version-selector">
-          <label for="game-version">VERSION</label>
-          <select id="game-version">
-            <option value="1.12.2">Minecraft 1.12.2</option>
-            <option value="1.8.8">Minecraft 1.8.8</option>
-            <option value="1.5.2">Minecraft 1.5.2</option>
-          </select>
-        </div>
-        <button class="play-button" onclick="launchGame()" aria-label="Lancer le jeu"></button>
-      </div>
     </section>
 
-    <section class="page information-page" id="page-mods">
-      <h1>Mods</h1>
-      <div class="info-card">Aucun mod installé pour le moment.</div>
-    </section>
-
-    <section class="page information-page" id="page-faq">
-      <h1>FAQ</h1>
-      <details open>
-        <summary>Le launcher fonctionne-t-il sur iPad ?</summary>
-        <p>Oui, l'interface est adaptée aux écrans tactiles et aux petits écrans.</p>
-      </details>
-      <details>
-        <summary>Le jeu est-il intégré au launcher ?</summary>
-        <p>Le bouton Play tente d'afficher le jeu dans la même page. Si le site distant bloque les iframes, les fichiers du jeu devront être hébergés directement dans ce projet.</p>
-      </details>
-    </section>
-
-    <section class="page information-page" id="page-installations">
-      <h1>Installations</h1>
-      <div class="info-card">Launchcraft fonctionne directement depuis GitHub Pages.</div>
-    </section>
-
-    <section class="page information-page" id="page-skins">
-      <h1>Skins</h1>
-      <div class="info-card">La gestion des skins sera ajoutée prochainement.</div>
-    </section>
-
-    <section class="page information-page" id="page-patchnotes">
-      <h1>Patch Notes</h1>
-      <div class="info-card"><strong>Version 1.0</strong><br>Création de l'interface Launchcraft, animation d'introduction et navigation.</div>
-    </section>
-
-    <section class="page information-page" id="page-settings">
-      <h1>Réglages</h1>
-      <label class="setting-line">
-        <span>Activer les animations</span>
-        <input type="checkbox" checked onchange="toggleAnimations(this.checked)">
-      </label>
-    </section>
-
-    <section class="page information-page" id="page-credits">
-      <h1>Crédits</h1>
-      <p>Launchcraft est un projet communautaire non affilié à Mojang ou Microsoft.</p>
-    </section>
   </main>
 
-  <section id="game-overlay" aria-hidden="true">
-    <div class="game-toolbar">
-      <strong>Launchcraft — Jeu</strong>
-      <button onclick="closeGame()">✕ Quitter le jeu</button>
-    </div>
-    <iframe id="game-frame" title="Jeu Minecraft" allow="fullscreen; autoplay"></iframe>
-    <div id="frame-message">
-      <h2>Le jeu ne peut pas être intégré</h2>
-      <p>Le site distant bloque peut-être l'affichage dans une iframe.</p>
-      <a href="https://eaglercraft.ir/">Ouvrir le jeu</a>
-    </div>
-  </section>
+</div>
 
-  <script src="./index.js"></script>
+<script>
+function selectMenu(button) {
+  document.querySelectorAll(".menu-button").forEach(item => {
+    item.classList.remove("active");
+  });
+
+  button.classList.add("active");
+}
+
+function launchGame() {
+  window.location.href = "mc/1.12.2/";
+}
+</script>
+
 </body>
 </html>
